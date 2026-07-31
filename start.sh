@@ -65,6 +65,15 @@ cat <<EOF > /root/.config/chromium/Default/Preferences
 }
 EOF
 
+echo "=== Debugging /app/extensions/violentmonkey ==="
+if [ -d "/app/extensions/violentmonkey" ]; then
+    echo "Directory exists."
+    ls -la /app/extensions/violentmonkey
+else
+    echo "Directory does NOT exist!"
+fi
+echo "================================================"
+
 echo "Starting openbox window manager..."
 openbox &
 sleep 1
