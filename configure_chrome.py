@@ -152,7 +152,10 @@ if __name__ == "__main__":
     
     # Also do the file preferences pinning fallback
     print("Running Toolbar Pinning utility...")
-    prefs_file = os.path.expanduser('~/.config/google-chrome/Default/Preferences')
+    prefs_file = '/app/chrome_profile/Default/Preferences'
+    if not os.path.exists(prefs_file):
+        prefs_file = os.path.expanduser('~/.config/google-chrome/Default/Preferences')
+        
     for i in range(15):
         if os.path.exists(prefs_file):
             try:

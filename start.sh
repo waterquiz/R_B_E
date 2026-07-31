@@ -42,20 +42,9 @@ export DISPLAY="${DISPLAY}"
 
 # Pre-configure Developer Mode in Chrome/Chromium Preferences so --load-extension succeeds on first launch
 echo "Pre-configuring Developer Mode..."
-mkdir -p /root/.config/google-chrome/Default
-mkdir -p /root/.config/chromium/Default
+mkdir -p /app/chrome_profile/Default
 
-cat <<EOF > /root/.config/google-chrome/Default/Preferences
-{
-  "extensions": {
-    "ui": {
-      "developer_mode": true
-    }
-  }
-}
-EOF
-
-cat <<EOF > /root/.config/chromium/Default/Preferences
+cat <<EOF > /app/chrome_profile/Default/Preferences
 {
   "extensions": {
     "ui": {
@@ -95,6 +84,7 @@ chromium-browser \
     --noerrdialogs \
     --remote-debugging-port=9222 \
     --remote-allow-origins=* \
+    --user-data-dir=/app/chrome_profile \
     --load-extension=/app/extensions/violentmonkey \
     https://www.google.com &
 
