@@ -47,6 +47,8 @@ COPY configure_chrome.py /app/configure_chrome.py
 RUN mkdir -p /etc/opt/chrome/policies/managed /etc/chromium/policies/managed
 COPY pin_extension.json /etc/opt/chrome/policies/managed/pin_extension.json
 COPY pin_extension.json /etc/chromium/policies/managed/pin_extension.json
+RUN chmod 755 /etc/opt/chrome/policies /etc/opt/chrome/policies/managed /etc/chromium/policies /etc/chromium/policies/managed && \
+    chmod 644 /etc/opt/chrome/policies/managed/pin_extension.json /etc/chromium/policies/managed/pin_extension.json
 
 COPY start.sh /app/start.sh
 RUN chmod +x /app/start.sh

@@ -92,10 +92,17 @@ chromium-browser \
     --disable-background-networking \
     --disable-sync \
     --mute-audio \
-    --js-flags="--max-old-space-size=512" \
+    --js-flags="--max-old-space-size=256" \
     --disable-background-timer-throttling \
     --disable-backgrounding-occluded-windows \
     --disable-renderer-backgrounding \
+    --disable-component-extensions-with-background-pages \
+    --disable-dev-tools \
+    --num-raster-threads=1 \
+    --disable-zero-copy \
+    --disable-gpu-rasterization \
+    --dns-prefetch-disable \
+    --disable-features=Translate,BackForwardCache,SharedArrayBuffer,AutofillServerCommunication,OptimizationHints,WebRTC \
     https://teaserfast.ru/login/ &
 
 # Configure Developer Mode, Allow User Scripts and pin extension
