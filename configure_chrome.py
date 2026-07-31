@@ -24,7 +24,34 @@ def configure():
         print("Error: Could not connect to Chrome debugging port.")
         return False
 
-    # 2. Open chrome://extensions page
+    # 2. Dynamically load the unpacked extension using CDP Extensions.loadUnpacked
+    try:
+        response = urllib.request.urlopen("http://127.0.0.1:9222/json/version", timeout=5)
+        version_info = json.loads(response.read().decode())
+        browser_ws_url = version_info.get("webSocketDebuggerUrl")
+        if browser_ws_url:
+            print("Connecting to browser target to dynamically load extension...")
+            browser_ws = websocket.create_connection(browser_ws_url, timeout=10)
+            
+            # Send loadUnpacked command
+            load_cmd = {
+                "id": 101,
+                "method": "Extensions.loadUnpacked",
+                "params": {
+                    "path": "/app/extensions/violentmonkey"
+                }
+            }
+            print(f"Sending Extensions.loadUnpacked to {browser_ws_url}...")
+            browser_ws.send(json.dumps(load_cmd))
+            load_res = json.loads(browser_ws.recv())
+            print(f"Extensions.loadUnpacked result: {load_res}")
+            browser_ws.close()
+        else:
+            print("Warning: Could not find webSocketDebuggerUrl in json/version.")
+    except Exception as e:
+        print(f"Failed to dynamically load extension via CDP: {e}")
+
+    # 3. Open chrome://extensions page
     try:
         req = urllib.request.Request("http://127.0.0.1:9222/json/new?chrome://extensions/", method="PUT")
         urllib.request.urlopen(req, timeout=5)
