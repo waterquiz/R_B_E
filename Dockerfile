@@ -41,7 +41,7 @@ RUN wget -qO- https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.tar.gz | \
 
 RUN mkdir -p /app/extensions
 
-COPY "Vilan Monkey" /app/extensions/violentmonkey
+COPY ["Vilan Monkey", "/app/extensions/violentmonkey"]
 COPY configure_chrome.py /app/configure_chrome.py
 
 COPY start.sh /app/start.sh
