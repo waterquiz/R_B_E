@@ -44,6 +44,10 @@ RUN mkdir -p /app/extensions
 COPY ["Vilan Monkey", "/app/extensions/violentmonkey"]
 COPY configure_chrome.py /app/configure_chrome.py
 
+RUN mkdir -p /etc/opt/chrome/policies/managed /etc/chromium/policies/managed
+COPY pin_extension.json /etc/opt/chrome/policies/managed/pin_extension.json
+COPY pin_extension.json /etc/chromium/policies/managed/pin_extension.json
+
 COPY start.sh /app/start.sh
 RUN chmod +x /app/start.sh
 

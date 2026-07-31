@@ -89,6 +89,13 @@ chromium-browser \
     --remote-allow-origins=* \
     --user-data-dir=/app/chrome_profile \
     --load-extension=/app/extensions/violentmonkey \
+    --disable-background-networking \
+    --disable-sync \
+    --mute-audio \
+    --js-flags="--max-old-space-size=512" \
+    --disable-background-timer-throttling \
+    --disable-backgrounding-occluded-windows \
+    --disable-renderer-backgrounding \
     https://teaserfast.ru/login/ &
 
 # Configure Developer Mode, Allow User Scripts and pin extension
@@ -97,11 +104,11 @@ python3 /app/configure_chrome.py &
 echo "Starting x11vnc..."
 if [ -n "$VNC_PASSWORD" ]; then
     x11vnc -display "${DISPLAY}" -rfbport "${VNC_PORT}" \
-        -passwd "${VNC_PASSWORD}" -forever -shared -bg \
+        -passwd "${VNC_PASSWORD}" -forever -shared -bg -noxdamage -nap \
         -o /tmp/x11vnc.log 2>/dev/null
 else
     x11vnc -display "${DISPLAY}" -rfbport "${VNC_PORT}" \
-        -nopw -forever -shared -bg \
+        -nopw -forever -shared -bg -noxdamage -nap \
         -o /tmp/x11vnc.log 2>/dev/null
 fi
 sleep 2
