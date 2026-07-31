@@ -63,6 +63,7 @@ def configure():
 
     # 3. Find the WebSocket URL for the extensions page
     ws_url = None
+    target_id = None
     for i in range(10):
         try:
             response = urllib.request.urlopen("http://127.0.0.1:9222/json/list", timeout=5)
@@ -70,6 +71,7 @@ def configure():
             for page in pages:
                 if "chrome://extensions" in page.get("url", ""):
                     ws_url = page.get("webSocketDebuggerUrl")
+                    target_id = page.get("id")
                     break
             if ws_url:
                 break
@@ -164,6 +166,25 @@ def configure():
         value = result.get("result", {}).get("result", {}).get("value", {})
         if value.get("status") == "success":
             print(f"Successfully configured Chrome: {value.get('extension')} ({value.get('id')})")
+            
+            # Close the chrome://extensions page since we are done configuring it
+            if 'browser_ws_url' in locals() and browser_ws_url and 'target_id' in locals() and target_id:
+                try:
+                    print(f"Closing the chrome://extensions tab (target ID: {target_id})...")
+                    b_ws = websocket.create_connection(browser_ws_url, timeout=5)
+                    b_ws.send(json.dumps({
+                        "id": 102,
+                        "method": "Target.closeTarget",
+                        "params": {
+                            "targetId": target_id
+                        }
+                    }))
+                    close_res = b_ws.recv()
+                    print("Target.closeTarget response:", close_res)
+                    b_ws.close()
+                except Exception as close_err:
+                    print(f"Failed to close extensions target: {close_err}")
+            
             return True
         else:
             print("Failed to configure Chrome extension:", value.get("message"), "Available extensions:", value.get("available"))

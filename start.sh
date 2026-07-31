@@ -49,7 +49,10 @@ cat <<EOF > /app/chrome_profile/Default/Preferences
   "extensions": {
     "ui": {
       "developer_mode": true
-    }
+    },
+    "pinned_extensions": [
+      "oclhhmlkjfdjmklecinlepakklfmkaja"
+    ]
   }
 }
 EOF
@@ -86,7 +89,7 @@ chromium-browser \
     --remote-allow-origins=* \
     --user-data-dir=/app/chrome_profile \
     --load-extension=/app/extensions/violentmonkey \
-    https://www.google.com &
+    https://teaserfast.ru/login/ &
 
 # Configure Developer Mode, Allow User Scripts and pin extension
 python3 /app/configure_chrome.py &
