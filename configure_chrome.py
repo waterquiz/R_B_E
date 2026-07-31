@@ -126,11 +126,12 @@ def configure():
             );
             
             if (ext) {
-                // Enable user scripts access
+                // Enable user scripts and incognito access
                 await new Promise((resolve) => {
                     chrome.developerPrivate.updateExtensionConfiguration({
                         extensionId: ext.id,
-                        userScriptsAccess: true
+                        userScriptsAccess: true,
+                        incognitoAccess: true
                     }, resolve);
                 });
                 return { "status": "success", "extension": ext.name, "id": ext.id };
