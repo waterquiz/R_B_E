@@ -40,6 +40,31 @@ done
 
 export DISPLAY="${DISPLAY}"
 
+# Pre-configure Developer Mode in Chrome/Chromium Preferences so --load-extension succeeds on first launch
+echo "Pre-configuring Developer Mode..."
+mkdir -p /root/.config/google-chrome/Default
+mkdir -p /root/.config/chromium/Default
+
+cat <<EOF > /root/.config/google-chrome/Default/Preferences
+{
+  "extensions": {
+    "ui": {
+      "developer_mode": true
+    }
+  }
+}
+EOF
+
+cat <<EOF > /root/.config/chromium/Default/Preferences
+{
+  "extensions": {
+    "ui": {
+      "developer_mode": true
+    }
+  }
+}
+EOF
+
 echo "Starting openbox window manager..."
 openbox &
 sleep 1
